@@ -22,12 +22,13 @@
   "homepage": "https://github.com/YonathanPelealu/AKSA-BE#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.5.1"
   },
   "devDependencies": {
     "eslint": "^7.22.0",
     "husky": "^5.2.0",
-    "postgres": "^1.0.2",
     "sequelize": "^6.6.2",
     "sequelize-cli": "^6.2.0"
   }
