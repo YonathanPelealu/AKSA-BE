@@ -1,5 +1,17 @@
 const { Book, author } = require ('../models')
+const Sequelize = require("sequelize");
+const { where } = require("sequelize");
+const Op = Sequelize.Op;
 
+exports.addBook = async (req,res,next) =>{
+    const { authorId,Title,ReleaseYear,Description } = req.body
+    try {
+        const saveBook = await Book.create({ authorId,Title,ReleaseYear,Description })
+        if (saveBook) res.send({message:"success"})
+    } catch (e) {
+        next (e)
+    }
+}
 exports.getBooks = async (req,res,next) => {
     const query = req.params
     try {
@@ -60,16 +72,13 @@ exports.getBooks = async (req,res,next) => {
         next(e)
     }
 }
-
 exports.getAll = async (req,res,next) => {
+    let { Show, Page, SortBy, OrderBy } = req.body
     try {
-        const { Show, Page, SortBy, OrderBy } = req.params
-        if ( typeof Show || typeof Page || typeof SortBy !== 'integer') {
-            res.send({message: 'Show Page And SortBy parameter must be number'})
-        }
-        if ( OrderBy !== 'ASC' || 'DESC') {
-            res.send({message : 'invalid value of OrderBy should be ASC or DESC'})
-        }
+        if ( Show === "" ) Show = 20
+        if ( Page === "" ) Page = 1
+        if ( SortBy !== 'Title' || 'ReleaseYear') SortBy = 'ReleaseYear'
+        if ( OrderBy !== 'ASC' || 'DESC') OrderBy = 'ASC'
         var options = {
             Page,
             paginate: Show,
@@ -90,8 +99,36 @@ exports.getAll = async (req,res,next) => {
                 total_data: total,
                 total_pages: pages,
                 books: docs,
-              })    
+              })
         }
+    } catch (e) {
+        next(e)
+    }
+}
+exports.searchBook = async (req,res,next) => {
+    const {keyword} = req.query
+    try {
+        var options = {
+            paginate: 4,
+            order: [['id', 'DESC']],
+            where: { 
+                Title: {
+                    [Op.iLike]: "%" + keyword + "%",
+                  }},
+            attributes: ["id", "Title", "ReleaseYear", "Description"],
+            include: {
+                model: author,
+                attributes: ["Name","Age","Description"],
+              },
+        }
+        const { docs, pages, total } = await Book.paginate(options)
+        res.status(200).json({
+            status: 'success',
+            total_data: total,
+            total_pages: pages,
+            books: docs,
+          })
+
     } catch (e) {
         next(e)
     }
