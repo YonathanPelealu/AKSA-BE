@@ -30,6 +30,7 @@ request body :
     OrderBy : ASC or DESC
 
 sample success response :
+```
 {
     "status": "success",
     "total_data": 6,
@@ -51,7 +52,7 @@ sample success response :
         }
     ]
 }
-
+```
 URI => /api/v1/books/search?keyword=
 - Request
 - Query
@@ -59,6 +60,7 @@ URI => /api/v1/books/search?keyword=
 
 - Response
 - Success
+```
     {
     "status": "success",
     "total_data": 4,
@@ -77,7 +79,7 @@ URI => /api/v1/books/search?keyword=
         }
     ]
 }
-
+```
 Get Author Books
 - URI => /api/v1/authors/{authorID}/books
 - Description => get all book written by the author
@@ -100,6 +102,7 @@ Request
 
 - Response
 - Success
+```
     {
     "status": "success",
     "total_data": 3,
@@ -129,6 +132,7 @@ Request
         }
     ]
 }
+```
 
 URI => /api/v1/authors/search?keyword=
 - Request
