@@ -75,6 +75,7 @@ exports.getBooks = async (req,res,next) => {
 exports.getAll = async (req,res,next) => {
   let { Show, Page, SortBy, OrderBy } = req.body
   try {
+    if (!Show || !Page || !SortBy || !OrderBy) res.sendStatus(400).json({status: 400,message:"bad request"})
     if ( Show === "" ) Show = 20
     if ( Page === "" ) Page = 1
     if ( SortBy !== 'Title' || 'ReleaseYear') SortBy = 'ReleaseYear'
@@ -91,6 +92,7 @@ exports.getAll = async (req,res,next) => {
     const { docs, pages, total } = await Book.paginate(options)
     if (Page > pages) {
       res.status(404).json({
+        status: 404,
         message: "page not found"
       })
     } else {
@@ -137,6 +139,7 @@ exports.getAuothorBook = async (req,res,next) => {
   const { authorId } = req.params
   let { Show,SortBy,OrderBy } = req.body
   try {
+    if (!Show || !Page || !SortBy || !OrderBy) res.sendStatus(400).json({status: 400,message:"bad request"})
     if (Show === "") Show = 20
     if (SortBy === "") SortBy = 'Title'
     if (OrderBy === "") OrderBy = 'ASC'
