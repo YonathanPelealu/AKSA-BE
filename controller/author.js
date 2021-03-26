@@ -9,11 +9,3 @@ exports.addAuthor = async (req,res,next) => {
         next(e)
     }
 }
-exports.getAllAuthor = async (req,res,next) => {
-    try {
-        const find = await author.findAll()
-        if (find) res.send(find)
-    } catch (e) {
-        next(e)
-    }
-}
