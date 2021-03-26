@@ -1,6 +1,5 @@
 const { Book, author } = require ('../models')
 const Sequelize = require("sequelize")
-const { where } = require("sequelize")
 const Op = Sequelize.Op
 
 exports.addBook = async (req,res,next) =>{
@@ -75,7 +74,7 @@ exports.getBooks = async (req,res,next) => {
 exports.getAll = async (req,res,next) => {
   let { Show, Page, SortBy, OrderBy } = req.body
   try {
-    if (!Show || !Page || !SortBy || !OrderBy) res.sendStatus(400).json({status: 400,message:"bad request"})
+    if (!Show || !Page || !SortBy || !OrderBy) res.sendStatus(400).json({ status: 400,message:"bad request" })
     if ( Show === "" ) Show = 20
     if ( Page === "" ) Page = 1
     if ( SortBy !== 'Title' || 'ReleaseYear') SortBy = 'ReleaseYear'
@@ -124,13 +123,18 @@ exports.searchBook = async (req,res,next) => {
       },
     }
     const { docs, pages, total } = await Book.paginate(options)
-    res.status(200).json({
-      status: 'success',
-      total_data: total,
-      total_pages: pages,
-      books: docs,
-    })
-
+    if (docs) {
+        res.status(200).json({
+          status: 'success',
+          total_data: total,
+          total_pages: pages,
+          books: docs,
+        })
+      } else {
+        res.status(404).json({
+          message : 'page not found'
+        })
+      }
   } catch (e) {
     next(e)
   }
@@ -139,7 +143,7 @@ exports.getAuothorBook = async (req,res,next) => {
   const { authorId } = req.params
   let { Show,SortBy,OrderBy } = req.body
   try {
-    if (!Show || !Page || !SortBy || !OrderBy) res.sendStatus(400).json({status: 400,message:"bad request"})
+    if (!Show || !Page || !SortBy || !OrderBy) res.sendStatus(400).json({ status: 400,message:"bad request" })
     if (Show === "") Show = 20
     if (SortBy === "") SortBy = 'Title'
     if (OrderBy === "") OrderBy = 'ASC'
