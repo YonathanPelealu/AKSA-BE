@@ -124,17 +124,17 @@ exports.searchBook = async (req,res,next) => {
     }
     const { docs, pages, total } = await Book.paginate(options)
     if (docs) {
-        res.status(200).json({
-          status: 'success',
-          total_data: total,
-          total_pages: pages,
-          books: docs,
-        })
-      } else {
-        res.status(404).json({
-          message : 'page not found'
-        })
-      }
+      res.status(200).json({
+        status: 'success',
+        total_data: total,
+        total_pages: pages,
+        books: docs,
+      })
+    } else {
+      res.status(404).json({
+        message : 'page not found'
+      })
+    }
   } catch (e) {
     next(e)
   }
@@ -143,7 +143,7 @@ exports.getAuothorBook = async (req,res,next) => {
   const { authorId } = req.params
   let { Show,SortBy,OrderBy } = req.body
   try {
-    if (!Show || !Page || !SortBy || !OrderBy) res.sendStatus(400).json({ status: 400,message:"bad request" })
+    if (!Show || !SortBy || !OrderBy) res.sendStatus(400).json({ status: 400,message:"bad request" })
     if (Show === "") Show = 20
     if (SortBy === "") SortBy = 'Title'
     if (OrderBy === "") OrderBy = 'ASC'
@@ -191,9 +191,11 @@ exports.getAllAuthor = async (req,res,next) => {
       },
     }
     const { docs, pages, total } = await author.paginate(options)
+    const count = docs.length
     res.status(200).json({
       status: 'success',
       total_data: total,
+      Total_author : count,
       total_pages: pages,
       Author: docs,
     })
