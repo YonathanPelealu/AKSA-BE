@@ -137,6 +137,7 @@ URI => /api/v1/authors/search?keyword=
 
 - Response
 - Success
+```
     {
     "status": "success",
     "total_data": 1,
@@ -168,3 +169,4 @@ URI => /api/v1/authors/search?keyword=
         }
     ]
 }
+```
