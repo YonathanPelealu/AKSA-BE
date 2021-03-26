@@ -1,10 +1,8 @@
 const router = require('express').Router()
-const {getAll,addBook,searchBook,getAuothorBook,getAllAuthor} = require ('../controller/book')
-const {addAuthor} = require ('../controller/author')
-router.post('/api/v1/books/',getAll)
-router.post('/api/v1/books/add',addBook)
-router.get('/api/v1/books/search',searchBook)
-router.post('/api/v1/authors/add',addAuthor)
-router.get('/api/v1/authors/search',getAllAuthor)
-router.post('/api/v1/authors/:authorId/books',getAuothorBook)
+const BookRoutes = require ('./books')
+const AuthorRoutes = require ('./authors')
+
+router.use('/books',BookRoutes)
+router.use('/authors',AuthorRoutes)
+
 exports.router = router

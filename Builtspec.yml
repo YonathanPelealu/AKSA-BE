@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+        - echo begin application building...
+  pre_build:
+    commands:
+      - echo installing source dependencies...
+      - npm install
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Compiling Node.js code...
+  post_build:
+    commands:
+      - echo AKSA-BE is Running Node.js
+artifacts:
+  files:
+    - routes/index.js
+    - routes/authors.js
+    - routes/books.js
+    - controller/author.js
+    - controller/book.js
+    - models/index.js
+    - models/book.js
+    - models/author.js
+    - app.js
+    - server.js
+    - package.json
